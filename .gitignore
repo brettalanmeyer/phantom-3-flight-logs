@@ -1,0 +1,17 @@
+/PhantomFlights/target/
+/PhantomFlights/data-files/
+/PhantomFlights/.settings/
+/PhantomFlights/.factorypath
+/PhantomFlights/.springBeans
+/Servers
+/RemoteSystemsTempFiles
+.metadata
+.recommenders
+.classpath
+*.class
+*.jar
+*.war
+*.ear
+/PhantomFlights/.project
+/PhantomFlights/mvnw
+/PhantomFlights/mvnw.cmd

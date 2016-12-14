@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	
+	<!-- Layouts -->
+	<definition name="layout.base" template="/WEB-INF/layout/base.jsp"></definition>
+	<definition name="layout.error" template="/WEB-INF/layout/error.jsp"></definition>
+	
+	<!-- Homepage -->
+	<definition name="main" extends="layout.base">
+		<put-attribute name="body" value="/WEB-INF/main/index.jsp" cascade="true" />
+	</definition>
+	
+	<definition name="dat.index" extends="layout.base">
+		<put-attribute name="body" value="/WEB-INF/dat/index.jsp" cascade="true" />
+	</definition>
+	
+	<!-- Errors -->
+	<definition name="errors.400" extends="layout.error">
+		<put-attribute name="body" value="/WEB-INF/errors/400.jsp" cascade="true" />
+	</definition>
+	<definition name="errors.404" extends="layout.error">
+		<put-attribute name="body" value="/WEB-INF/errors/404.jsp" cascade="true" />
+	</definition>
+	<definition name="errors.500" extends="layout.error">
+		<put-attribute name="body" value="/WEB-INF/errors/500.jsp" cascade="true" />
+	</definition>
+	
+</tiles-definitions>
