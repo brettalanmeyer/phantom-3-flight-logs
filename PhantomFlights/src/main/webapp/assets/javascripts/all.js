@@ -1,7 +1,7 @@
 $(function(){
 	
-	$("button").on("click", function(){
-		$(this).text("Processing...");
+	$("form").on("submit", function(){
+		$(this).find("button").text("Processing...");
 		$("button").prop("disabled", true);
 	});
 	

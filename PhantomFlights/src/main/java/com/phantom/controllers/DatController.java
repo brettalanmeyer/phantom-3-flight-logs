@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.phantom.converters.CLIDatCon;
+import com.phantom.ingestion.DataReader;
+import com.phantom.ingestion.FlightLogIngestor;
+import com.phantom.ingestion.LogEntry;
 import com.phantom.storage.StorageService;
 @Controller
 public class DatController {
@@ -69,7 +72,16 @@ public class DatController {
 	public String ingest(@RequestParam("csv") String csv) {
 		
 		if(csv != null && !csv.isEmpty()){
+			
 			Path csvPath = this.storageService.loadCsv(csv);
+			FlightLogIngestor flightLogIngestor = new FlightLogIngestor();
+			List<LogEntry> logData = DataReader.readLogData(csvPath);
+
+			for(LogEntry logEntry : logData){
+				flightLogIngestor.logEntry(logEntry);
+			}
+			
+			flightLogIngestor.close();
 		}
 		
 		return "redirect:/dat";
