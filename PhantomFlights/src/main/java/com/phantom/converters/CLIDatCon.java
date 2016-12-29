@@ -39,7 +39,6 @@ public class CLIDatCon {
 			convertDat.csvPS = csvPS;
 			AnalyzeDatResults results = convertDat.analyze(true);
 			csvPS.close();
-			System.out.println("OK");
 			
 		} catch (IOException | NotDatFileException e) {
 			e.printStackTrace();

@@ -11,6 +11,10 @@
 	</head>
 	<body>
 		
+		<a href="/" class="pull-left">
+			<span class="glyphicon glyphicon-home"></span>
+		</a>
+		
 		<div class="container-fluid">
 			<tiles:insertAttribute name="body" />
 		</div>

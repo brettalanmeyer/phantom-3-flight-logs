@@ -1,18 +1,28 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>Phantom 3 Flight Log Processing</h1>
+<h2>Phantom 3 Flight Log Processing</h2>
 
 <br />
 
 <div>
-	<form:form action="/dat/upload" enctype="multipart/form-data" >
-		<input type="file" name="file" required="required" />
-		<button class="btn btn-primary btn-sm">Upload Phantom 3 DAT File</button>
+	<form:form action="/dat/upload" enctype="multipart/form-data" class="form-inline">
+		
+		<div class="input-group">
+			<label class="input-group-btn">
+				<span class="btn btn-primary">
+					Browse&hellip; <input id="file-field" type="file" name="file" style="display: none;" autocomplete="off" />
+				</span>
+			</label>
+			   
+			<input type="text" class="form-control" autocomplete="off" readonly="readonly" />
+		</div>
+		
+		<button id="btn-upload" class="btn btn-primary">Upload Phantom 3 DAT File</button>
+		
 	</form:form>
 </div>
 
-<br />
 <br />
 
 <div>
@@ -20,20 +30,28 @@
 	<table class="table" style="width: inherit;">
 		<tbody>
 		
-			<c:forEach items="${datFiles}" var="file">
+			<c:forEach items="${dats}" var="dat">
 				<tr>
-					<td>${file}</td>
+				
+					<td>${dat.name}</td>
+					
 					<td>
-						<form:form id="" action="/dat/convert">
-							<input type="hidden" name="dat" value="${file}" />
-							<button class="btn btn-info btn-xs">Convert to CSV</button>
-						</form:form>
+						<c:if test="${dat.processed}">
+							<button class="btn btn-info btn-sm disabled">Converted</button>
+						</c:if>
+						<c:if test="${not dat.processed}">
+							<form:form id="" action="/dat/convert">
+								<input type="hidden" name="dat" value="${dat.name}" />
+								<button class="btn btn-info btn-sm">Convert to CSV</button>
+							</form:form>
+						</c:if>
 					</td>
+					
 					<td>
 						<form:form id="" action="/dat/delete">
-							<input type="hidden" name="file" value="${file}" />
+							<input type="hidden" name="file" value="${dat.name}" />
 							<input type="hidden" name="type" value="dat" />
-							<button class="btn btn-danger btn-xs">Delete</button>
+							<button class="btn btn-danger btn-sm">Delete</button>
 						</form:form>
 					</td>
 					
@@ -50,22 +68,31 @@
 	<table class="table" style="width: inherit;">
 		<tbody>
 		
-			<c:forEach items="${csvFiles}" var="file">
+			<c:forEach items="${csvs}" var="csv">
 				<tr>
-					<td>${file}</td>
+				
+					<td>${csv.name}</td>
+					
 					<td>
-						<form:form id="" action="/dat/ingest">
-							<input type="hidden" name="csv" value="${file}" />
-							<button class="btn btn-info btn-xs">Ingest to Database</button>
-						</form:form>
+						<c:if test="${csv.processed}">
+							<button class="btn btn-info btn-sm disabled">Ingested</button>
+						</c:if>
+						<c:if test="${not csv.processed}">
+							<form:form id="" action="/dat/ingest">
+								<input type="hidden" name="csv" value="${csv.name}" />
+								<button class="btn btn-info btn-sm">Ingest to Database</button>
+							</form:form>		
+						</c:if>
 					</td>
+					
 					<td>
 						<form:form id="" action="/dat/delete">
-							<input type="hidden" name="file" value="${file}" />
+							<input type="hidden" name="file" value="${csv.name}" />
 							<input type="hidden" name="type" value="csv" />
-							<button class="btn btn-danger btn-xs">Delete</button>
+							<button class="btn btn-danger btn-sm">Delete</button>
 						</form:form>
 					</td>
+					
 				</tr>
 			</c:forEach>
 		

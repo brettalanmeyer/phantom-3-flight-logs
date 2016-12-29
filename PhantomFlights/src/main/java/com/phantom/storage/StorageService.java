@@ -4,13 +4,15 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+@Service
 public interface StorageService {
 
-	void init();
+	public void init();
 
-	void storeDat(MultipartFile file);
+	public boolean storeDat(MultipartFile file);
 
 	public Stream<Path> loadAllDat();
 	

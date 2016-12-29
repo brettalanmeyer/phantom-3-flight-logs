@@ -29,15 +29,23 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 	@Override
-	public void storeDat(MultipartFile file) {
+	public boolean storeDat(MultipartFile file) {
+		Path path = this.datLocation.resolve(file.getOriginalFilename());
+		
+		if(Files.exists(path)){
+			return false;
+		}
+		
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
 			}
-			Files.copy(file.getInputStream(), this.datLocation.resolve(file.getOriginalFilename()));
+			Files.copy(file.getInputStream(), path);
 		} catch (IOException e) {
 			throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
 		}
+		
+		return true;
 	}
 
 	@Override
