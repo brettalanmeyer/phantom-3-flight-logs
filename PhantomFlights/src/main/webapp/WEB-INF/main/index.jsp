@@ -14,9 +14,11 @@
 		<button class="btn btn-default btn-block" data-type="flight-data" data-flight="${tag}">${tag} Data</button>
 	</c:forEach>
 	
+	<hr />
+	
+	<button class="btn btn-default btn-block" data-type="time-data" disabled>Analyze</button>
+	
 </div>
 
 <div id="map" class="map"></div>
 
-<script src="/assets/javascripts/map.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfh-kFCPhku2UzStFLJNSPExxfdbWdXVo&callback=initMap"></script>
