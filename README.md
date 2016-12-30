@@ -8,3 +8,6 @@ Commands:
 	influx -precision rfc3339;
 	show databases;
 	use dbname;
+
+
+	  GROUP BY time(30m)  

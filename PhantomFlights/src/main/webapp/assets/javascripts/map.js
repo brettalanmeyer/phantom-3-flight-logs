@@ -14,14 +14,14 @@ function initMap() {
 	var currentFlightPath = null;
 	var currentMarker = null;
 	
-	var flightBtns = $(".btn[data-flight]");
+	var flightBtns = $(".btn[data-type=flight-coordinates]");
 	
 	flightBtns.on("click", function(){
 		
 		var source = $(this);
 		flightBtns.prop("disabled", true);
 		
-		$.get("/data.json", { "flight": source.data("flight") }).done(function(coordinates){
+		$.get("/flight-coordinates.json", { "flight": source.data("flight") }).done(function(coordinates){
 			
 			setTimeout(function(){
 				flightBtns.prop("disabled", false);

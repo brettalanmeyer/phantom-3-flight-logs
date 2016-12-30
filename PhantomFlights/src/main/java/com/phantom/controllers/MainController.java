@@ -2,6 +2,7 @@ package com.phantom.controllers;
 
 import java.util.List;
 
+import org.influxdb.dto.QueryResult.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,7 @@ import com.phantom.service.DataService;
 
 @Controller
 public class MainController {
-	
+
 	@Autowired
 	private DataService dataService;
 
@@ -25,11 +26,17 @@ public class MainController {
 		model.addAttribute("tags", tags);
 		return "main";
 	}
-	
+
 	@ResponseBody
-	@RequestMapping(value = "/data.json", method = RequestMethod.GET)
-	public List<Coordinate> data(@RequestParam("flight") String flight) {
+	@RequestMapping(value = "/flight-coordinates.json", method = RequestMethod.GET)
+	public List<Coordinate> flightCoordinates(@RequestParam("flight") String flight) {
 		return this.dataService.getFlightCoordinates(flight);
 	}
-	
+
+	@ResponseBody
+	@RequestMapping(value = "/flight-data.json", method = RequestMethod.GET)
+	public Series flightData(@RequestParam("flight") String flight) {
+		return this.dataService.getFlightData(flight);
+	}
+
 }

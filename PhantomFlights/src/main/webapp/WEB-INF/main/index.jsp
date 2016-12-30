@@ -5,7 +5,13 @@
 <div class="pull-right" style="width: 120px;">
 
 	<c:forEach items="${tags}" var="tag">
-		<button class="btn btn-default btn-block" data-flight="${tag}">${tag}</button>
+		<button class="btn btn-default btn-block" data-type="flight-coordinates" data-flight="${tag}">${tag} Flight</button>
+	</c:forEach>
+	
+	<hr />
+	
+	<c:forEach items="${tags}" var="tag">
+		<button class="btn btn-default btn-block" data-type="flight-data" data-flight="${tag}">${tag} Data</button>
 	</c:forEach>
 	
 </div>

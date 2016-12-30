@@ -2,6 +2,7 @@ package com.phantom.ingestion;
 
 public class LogEntry {
 	
+	private String time = "";
 	private String tick = "";
 	private String offsetTime = "";
 	private String flightTime = "";
@@ -115,6 +116,14 @@ public class LogEntry {
 	private String controlModeSwitch = "";
 	private String tabletLongitude = "";
 	private String tabletLatitude = "";
+	
+	public String getTime() {
+		return time;
+	}
+	
+	public void setTime(String time) {
+		this.time = time;
+	}
 	
 	public String getTick() {
 		return tick;
