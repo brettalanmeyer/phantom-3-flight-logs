@@ -26,8 +26,9 @@ function initMap() {
 		var flightBtns = $(".btn[data-type=flight]");
 		flightBtns.on("click", function(){
 			
-			var source = $(this);
-			flightBtns.prop("disabled", true);
+			
+			flightBtns.prop("disabled", true).removeClass("active");
+			var source = $(this).addClass("active");
 			
 			$.get("/flight-data.json", { "flight": source.data("flight") }).done(function(data){
 				

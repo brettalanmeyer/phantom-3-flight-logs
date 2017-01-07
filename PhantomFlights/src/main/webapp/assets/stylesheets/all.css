@@ -3,17 +3,26 @@ body {
 }
 
 .map {
-	width: 800px;
-	height: 500px;
+	width: 1600px;
+	height: 700px;
 }
 
 .table {
-	width: 600px;	
+	width: 400px;	
 }
 
 .table > tbody > tr > td {
 	vertical-align: middle;
 	width: 33.333%;
+}
+
+.file-list {
+	float: left;
+	margin-right: 8px;
+}
+
+.btn-sm {
+	padding: 3px 10px;
 }
 
 .btn-file {

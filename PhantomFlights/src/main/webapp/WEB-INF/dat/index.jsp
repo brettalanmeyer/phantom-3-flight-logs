@@ -23,7 +23,7 @@
 
 <br />
 
-<div>
+<div class="file-list">
 	<h4>DAT Files</h4>
 	
 	<table class="table">
@@ -36,7 +36,7 @@
 					
 					<td>
 						<c:if test="${dat.processed}">
-							<button class="btn btn-info btn-sm disabled">Converted</button>
+							<button class="btn btn-info btn-sm disabled">Processed</button>
 						</c:if>
 						<c:if test="${not dat.processed}">
 							<form:form id="" action="/dat/process-dat">
@@ -62,7 +62,7 @@
 	
 </div>
 
-<div>
+<div class="file-list">
 	<h4>CSV Files</h4>
 	
 	<table class="table">
@@ -75,7 +75,7 @@
 					
 					<td>
 						<c:if test="${csv.processed}">
-							<button class="btn btn-info btn-sm disabled">Converted</button>
+							<button class="btn btn-info btn-sm disabled">Processed</button>
 						</c:if>
 						<c:if test="${not csv.processed}">
 							<form:form id="" action="/dat/process-csv">
@@ -101,7 +101,7 @@
 	
 </div>
 
-<div>
+<div class="file-list">
 	<h4>JSON Files</h4>
 	
 	<table class="table">
@@ -111,8 +111,6 @@
 				<tr>
 				
 					<td>${json}</td>
-					
-					<td></td>
 					
 					<td>
 						<form:form id="" action="/dat/delete">
