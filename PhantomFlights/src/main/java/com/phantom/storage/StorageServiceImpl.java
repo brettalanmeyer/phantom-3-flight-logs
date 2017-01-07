@@ -1,6 +1,10 @@
 package com.phantom.storage;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,22 +24,24 @@ public class StorageServiceImpl implements StorageService {
 	private final Path rootLocation;
 	private final Path datLocation;
 	private final Path csvLocation;
+	private final Path jsonLocation;
 
 	@Autowired
 	public StorageServiceImpl(StorageProperties properties) {
 		this.rootLocation = Paths.get(properties.getLocation());
-		this.datLocation = this.load(properties.getDat());
-		this.csvLocation = this.load(properties.getCsv());
+		this.datLocation = this.path(properties.getDat());
+		this.csvLocation = this.path(properties.getCsv());
+		this.jsonLocation = this.path(properties.getJson());
 	}
 
 	@Override
 	public boolean storeDat(MultipartFile file) {
 		Path path = this.datLocation.resolve(file.getOriginalFilename());
-		
-		if(Files.exists(path)){
+
+		if (Files.exists(path)) {
 			return false;
 		}
-		
+
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
@@ -44,7 +50,23 @@ public class StorageServiceImpl implements StorageService {
 		} catch (IOException e) {
 			throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
 		}
-		
+
+		return true;
+	}
+
+	@Override
+	public boolean storeJson(Path path, String data) {
+		if (Files.exists(path)) {
+			return false;
+		}
+
+		try (Writer writer = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(path.toAbsolutePath().toString()), "utf-8"))) {
+			writer.write(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return true;
 	}
 
@@ -52,44 +74,52 @@ public class StorageServiceImpl implements StorageService {
 	public Stream<Path> loadAllDat() {
 		return this.loadAll(this.datLocation);
 	}
-	
+
 	@Override
 	public Stream<Path> loadAllCsv() {
 		return this.loadAll(this.csvLocation);
 	}
-	
+
+	@Override
+	public Stream<Path> loadAllJson() {
+		return this.loadAll(this.jsonLocation);
+	}
+
 	private Stream<Path> loadAll(Path location) {
 		try {
-			return Files.walk(location, 1)
-					.filter(path -> !path.equals(location))
+			return Files.walk(location, 1).filter(path -> !path.equals(location))
 					.map(path -> location.relativize(path));
 		} catch (IOException e) {
 			throw new StorageException("Failed to read stored files", e);
 		}
-
 	}
 
 	@Override
-	public Path load(String filename) {
+	public Path path(String filename) {
 		return this.rootLocation.resolve(filename);
 	}
-	
+
 	@Override
-	public Path loadDat(String filename) {
+	public Path datPath(String filename) {
 		return this.datLocation.resolve(filename);
 	}
-	
+
 	@Override
-	public Path loadCsv(String filename) {
+	public Path csvPath(String filename) {
 		return this.csvLocation.resolve(filename);
+	}
+
+	@Override
+	public Path jsonPath(String filename) {
+		return this.jsonLocation.resolve(filename);
 	}
 
 	@Override
 	public Resource loadAsResource(String filename) {
 		try {
-			Path file = load(filename);
+			Path file = path(filename);
 			Resource resource = new UrlResource(file.toUri());
-			if(resource.exists() || resource.isReadable()) {
+			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
 				throw new StorageFileNotFoundException("Could not read file: " + filename);
@@ -107,7 +137,7 @@ public class StorageServiceImpl implements StorageService {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void deleteAll() {
 		FileSystemUtils.deleteRecursively(this.rootLocation.toFile());
@@ -116,18 +146,21 @@ public class StorageServiceImpl implements StorageService {
 	@Override
 	public void init() {
 		try {
-			if(!Files.exists(this.rootLocation)){
+			if (!Files.exists(this.rootLocation)) {
 				Files.createDirectory(this.rootLocation);
 			}
-			if(!Files.exists(this.datLocation)){
+			if (!Files.exists(this.datLocation)) {
 				Files.createDirectory(this.datLocation);
 			}
-			if(!Files.exists(this.csvLocation)){
+			if (!Files.exists(this.csvLocation)) {
 				Files.createDirectory(this.csvLocation);
+			}
+			if (!Files.exists(this.jsonLocation)) {
+				Files.createDirectory(this.jsonLocation);
 			}
 		} catch (IOException e) {
 			throw new StorageException("Could not initialize storage", e);
 		}
 	}
-	
+
 }

@@ -8,6 +8,7 @@ public class StorageProperties {
 	private String location = "data-files";
 	private String dat = "dat";
 	private String csv = "csv";
+	private String json = "json";
 
 	public String getLocation() {
 		return location;
@@ -31,6 +32,14 @@ public class StorageProperties {
 
 	public void setCsv(String csv) {
 		this.csv = csv;
+	}
+	
+	public String getJson() {
+		return json;
+	}
+
+	public void setJson(String json) {
+		this.json = json;
 	}
 
 }

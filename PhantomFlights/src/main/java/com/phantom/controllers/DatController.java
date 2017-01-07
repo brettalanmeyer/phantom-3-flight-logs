@@ -19,9 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.phantom.converters.CLIDatCon;
 import com.phantom.ingestion.DataReader;
-import com.phantom.ingestion.FlightLogIngestor;
-import com.phantom.ingestion.LogEntry;
-import com.phantom.service.DataService;
 import com.phantom.storage.StorageService;
 
 @Controller
@@ -32,12 +29,9 @@ public class DatController {
 	@Autowired
 	private StorageService storageService;
 	
-	@Autowired
-	private DataService dataService;
-
 	@RequestMapping(value = "/dat", method = RequestMethod.GET)
 	public String index(Model model) {
-
+		
 		List<Map<String, Object>> dats = new ArrayList<>();
 		List<String> datFiles = this.storageService.loadAllDat().map(path -> path.getFileName().toString()).collect(Collectors.toList());
 		List<String> datFilesExtensionless = new ArrayList<>();
@@ -52,8 +46,11 @@ public class DatController {
 			csvFilesExtensionless.add(csvFile.substring(0, csvFile.indexOf('.')));
 		}
 		
-		List<String> tags = this.dataService.getTags();
-		
+		List<String> jsonFiles = this.storageService.loadAllJson().map(path -> path.getFileName().toString()).collect(Collectors.toList());
+		List<String> jsonFilesExtensionless = new ArrayList<>();
+		for(String jsonFile : jsonFiles){
+			jsonFilesExtensionless.add(jsonFile.substring(0, jsonFile.indexOf('.')));
+		}
 		
 		for(int i = 0; i < datFiles.size(); i++){
 			Map<String, Object> map = new HashMap<>();
@@ -65,12 +62,13 @@ public class DatController {
 		for(int i = 0; i < csvFiles.size(); i++){
 			Map<String, Object> map = new HashMap<>();
 			map.put("name", csvFiles.get(i));
-			map.put("processed", tags.contains(csvFilesExtensionless.get(i)));
+			map.put("processed", jsonFilesExtensionless.contains(csvFilesExtensionless.get(i)));
 			csvs.add(map);
 		}
 		
 		model.addAttribute("dats", dats);
 		model.addAttribute("csvs", csvs);
+		model.addAttribute("jsons", jsonFiles);
 		
 		return "dat.index";
 	}
@@ -89,15 +87,15 @@ public class DatController {
 		return "redirect:/dat";
 	}
 	
-	@RequestMapping(value = "/dat/convert", method = RequestMethod.POST)
-	public String convert(@RequestParam("dat") String dat) {
+	@RequestMapping(value = "/dat/process-dat", method = RequestMethod.POST)
+	public String processDat(@RequestParam("dat") String dat) {
 		logger.info("Converting DAT file '{}' to CSV", dat);
 		
 		if(dat != null && !dat.isEmpty()){
 			String csv = dat.substring(0, dat.indexOf(".")) + ".csv";
 			
-			Path datPath = this.storageService.loadDat(dat);
-			Path csvPath = this.storageService.loadCsv(csv);
+			Path datPath = this.storageService.datPath(dat);
+			Path csvPath = this.storageService.csvPath(csv);
 			
 			logger.info("Beginning DAT to CSV Conversion");
 			
@@ -109,31 +107,23 @@ public class DatController {
 		return "redirect:/dat";
 	}
 	
-	@RequestMapping(value = "/dat/ingest", method = RequestMethod.POST)
-	public String ingest(@RequestParam("csv") String csv) {
-		logger.info("Beginning ingestion of CSV file '{}' to influxDB", csv);
+	@RequestMapping(value = "/dat/process-csv", method = RequestMethod.POST)
+	public String processCsv(@RequestParam("csv") String csv) {
+		logger.info("Converting CSV file '{}' to JSON", csv);
 		
 		if(csv != null && !csv.isEmpty()){
-			Path csvPath = this.storageService.loadCsv(csv);
-
-			String tag = csv.substring(0, csv.indexOf("."));
-			FlightLogIngestor flightLogIngestor = new FlightLogIngestor(tag);
-
-			List<LogEntry> logData = DataReader.readLogData(csvPath);
-
-			boolean first = true;
-			for(LogEntry logEntry : logData){
-				if(first){
-					first = false;
-					continue;
-				}
-				flightLogIngestor.logEntry(logEntry);
-			}
+			String json = csv.substring(0, csv.indexOf(".")) + ".json";
 			
-			flightLogIngestor.close();
+			Path csvPath = this.storageService.csvPath(csv);
+			Path jsonPath = this.storageService.jsonPath(json);
+			
+			logger.info("Beginning CSV to JSON Conversion");
+
+			String jsonData = DataReader.convertCsvToJson(csvPath);
+			this.storageService.storeJson(jsonPath, jsonData);
+			
+			logger.info("Completing CSV to JSON Conversion");
 		}
-		
-		logger.info("Completing ingestion of CSV file '{}' to influxDB", csv);
 		
 		return "redirect:/dat";
 	}
@@ -145,9 +135,11 @@ public class DatController {
 		if(file != null && !file.isEmpty()){
 			Path path = null;
 			if("dat".equals(type)){
-				path = this.storageService.loadDat(file);
+				path = this.storageService.datPath(file);
 			} else if("csv".equals(type)) {
-				path = this.storageService.loadCsv(file);
+				path = this.storageService.csvPath(file);
+			} else if("json".equals(type)) {
+				path = this.storageService.jsonPath(file);
 			}
 			this.storageService.delete(path);
 		}

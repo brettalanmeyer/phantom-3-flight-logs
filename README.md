@@ -1,13 +1,7 @@
 # phantom-3-flight-logs
 
+Documentation
 
-influxdb
+	https://datfile.net/
 
-Commands:
-
-	influx -precision rfc3339;
-	show databases;
-	use dbname;
-
-
-	  GROUP BY time(30m)  
+	Fields: https://datfile.net/DatCon/fields.html

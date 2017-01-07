@@ -1,7 +1,5 @@
 package com.phantom.ingestion;
 
-import org.influxdb.dto.Point.Builder;
-
 public class Mapper {
 	
 	public static LogEntry rowToLogEntity(String[] row) {
@@ -10,241 +8,170 @@ public class Mapper {
 		
 		int i = 0;
 		
-		logEntry.setTick(row[i++]);
-		logEntry.setOffsetTime(row[i++]);
-		logEntry.setFlightTime(row[i++]);
-		logEntry.setLongitude(row[i++]);
-		logEntry.setLatitude(row[i++]);
-		logEntry.setNumSats(row[i++]);
-		logEntry.setGpsHealth(row[i++]);
-		logEntry.setGpsAltitude(row[i++]);
-		logEntry.setBaroAlt(row[i++]);
-		logEntry.setVpsHeight(row[i++]);
-		logEntry.setRelativeHeight(row[i++]);
-		logEntry.setAccelX(row[i++]);
-		logEntry.setAccelY(row[i++]);
-		logEntry.setAccelZ(row[i++]);
-		logEntry.setAccel(row[i++]);
-		logEntry.setGyroX(row[i++]);
-		logEntry.setGyroY(row[i++]);
-		logEntry.setGyroZ(row[i++]);
-		logEntry.setGyro(row[i++]);
-		logEntry.setErrorX(row[i++]);
-		logEntry.setErrorY(row[i++]);
-		logEntry.setErrorZ(row[i++]);
-		logEntry.setError(row[i++]);
-		logEntry.setMagX(row[i++]);
-		logEntry.setMagY(row[i++]);
-		logEntry.setMagZ(row[i++]);
-		logEntry.setMagMod(row[i++]);
-		logEntry.setVelN(row[i++]);
-		logEntry.setVelE(row[i++]);
-		logEntry.setVelD(row[i++]);
-		logEntry.setVel(row[i++]);
-		logEntry.setVelH(row[i++]);
-		logEntry.setVelGPSvelH(row[i++]);
-		logEntry.setQuatW(row[i++]);
-		logEntry.setQuatX(row[i++]);
-		logEntry.setQuatY(row[i++]);
-		logEntry.setQuatZ(row[i++]);
-		logEntry.setRoll(row[i++]);
-		logEntry.setPitch(row[i++]);
-		logEntry.setYaw(row[i++]);
-		logEntry.setYaw360(row[i++]);
-		logEntry.setTotalGyroZ(row[i++]);
-		logEntry.setMagYaw(row[i++]);
-		logEntry.setThrustAngle(row[i++]);
-		logEntry.setHomePointLongitude(row[i++]);
-		logEntry.setHomePointLatitude(row[i++]);
-		logEntry.setHomePointAltitude(row[i++]);
-		logEntry.setGeoMagDeclination(row[i++]);
-		logEntry.setGeoMagInclination(row[i++]);
-		logEntry.setDistancHP(row[i++]);
-		logEntry.setDistanceTravelled(row[i++]);
-		logEntry.setDirectionOfTravel(row[i++]);
-		logEntry.setDirectionOfTravelTrue(row[i++]);
-		logEntry.setIMUTemp(row[i++]);
-		logEntry.setFlyCState(row[i++]);
-		logEntry.setFlyCStateString(row[i++]);
-		logEntry.setNonGPSCause(row[i++]);
-		logEntry.setNonGPSCauseString(row[i++]);
-		logEntry.setDWFlyCState(row[i++]);
-		logEntry.setConnectedToRC(row[i++]);
-		logEntry.setCurrent(row[i++]);
-		logEntry.setVolt1(row[i++]);
-		logEntry.setVolt2(row[i++]);
-		logEntry.setVolt3(row[i++]);
-		logEntry.setVolt4(row[i++]);
-		logEntry.setVolt5(row[i++]);
-		logEntry.setVolt6(row[i++]);
-		logEntry.setTotalVolts(row[i++]);
-		logEntry.setVoltSpread(row[i++]);
-		logEntry.setWatts(row[i++]);
-		logEntry.setBatteryTemp(row[i++]);
-		logEntry.setRatedCapacity(row[i++]);
-		logEntry.setRemaingCapacity(row[i++]);
-		logEntry.setPercentageCapacity(row[i++]);
-		logEntry.setUsefulTime(row[i++]);
-		logEntry.setPercentageVolts(row[i++]);
-		logEntry.setBatteryCycleCount(row[i++]);
-		logEntry.setBatteryLifePercentage(row[i++]);
-		logEntry.setBatteryBarCode(row[i++]);
-		logEntry.setMinCurrent(row[i++]);
-		logEntry.setMaxCurrent(row[i++]);
-		logEntry.setAvgCurrent(row[i++]);
-		logEntry.setMinVolts(row[i++]);
-		logEntry.setMaxVolts(row[i++]);
-		logEntry.setAvgVolts(row[i++]);
-		logEntry.setMinWatts(row[i++]);
-		logEntry.setMaxWatts(row[i++]);
-		logEntry.setAvgWatts(row[i++]);
-		logEntry.setGimbalRoll(row[i++]);
-		logEntry.setGimbalPitch(row[i++]);
-		logEntry.setGimbalYaw(row[i++]);
-		logEntry.setGimbalXRoll(row[i++]);
-		logEntry.setGimbalXPitch(row[i++]);
-		logEntry.setGimbalXYaw(row[i++]);
-		logEntry.setMotorCmndRFront(row[i++]);
-		logEntry.setMotorCmndLFront(row[i++]);
-		logEntry.setMotorCmndLBack(row[i++]);
-		logEntry.setMotorCmndRBack(row[i++]);
-		logEntry.setMotorSpeedRFront(row[i++]);
-		logEntry.setMotorSpeedLFront(row[i++]);
-		logEntry.setMotorSpeedLBack(row[i++]);
-		logEntry.setMotorSpeedRBack(row[i++]);
-		logEntry.setMotorLoadRFront(row[i++]);
-		logEntry.setMotorLoadLFront(row[i++]);
-		logEntry.setMotorLoadLBack(row[i++]);
-		logEntry.setMotorLoadRBack(row[i++]);
-		logEntry.setControlAileron(row[i++]);
-		logEntry.setControlElevator(row[i++]);
-		logEntry.setControlThrottle(row[i++]);
-		logEntry.setControlRudder(row[i++]);
-		logEntry.setControlModeSwitch(row[i++]);
-
-		if(i > 111){
-			logEntry.setTabletLongitude(row[i++]);
-			logEntry.setTabletLatitude(row[i++]);
-		}
+		logEntry.setTick(getInteger(row, i++));
+		logEntry.setOffsetTime(getDouble(row, i++));
+		logEntry.setFlightTime(getInteger(row, i++));
+		logEntry.setLongitude(getDouble(row, i++));
+		logEntry.setLatitude(getDouble(row, i++));
+		logEntry.setNumSats(getInteger(row, i++));
+		logEntry.setGpsHealth(getInteger(row, i++));
+		logEntry.setGpsAltitude(getDouble(row, i++));
+		logEntry.setBaroAlt(getDouble(row, i++));
+		logEntry.setVpsHeight(getDouble(row, i++));
+		logEntry.setRelativeHeight(getDouble(row, i++));
+		logEntry.setAccelX(getDouble(row, i++));
+		logEntry.setAccelY(getDouble(row, i++));
+		logEntry.setAccelZ(getDouble(row, i++));
+		logEntry.setAccel(getDouble(row, i++));
+		logEntry.setGyroX(getDouble(row, i++));
+		logEntry.setGyroY(getDouble(row, i++));
+		logEntry.setGyroZ(getDouble(row, i++));
+		logEntry.setGyro(getDouble(row, i++));
+		logEntry.setErrorX(getDouble(row, i++));
+		logEntry.setErrorY(getDouble(row, i++));
+		logEntry.setErrorZ(getDouble(row, i++));
+		logEntry.setError(getDouble(row, i++));
+		logEntry.setMagX(getInteger(row, i++));
+		logEntry.setMagY(getInteger(row, i++));
+		logEntry.setMagZ(getInteger(row, i++));
+		logEntry.setMagMod(getDouble(row, i++));
+		logEntry.setVelN(getDouble(row, i++));
+		logEntry.setVelE(getDouble(row, i++));
+		logEntry.setVelD(getDouble(row, i++));
+		logEntry.setVel(getDouble(row, i++));
+		logEntry.setVelH(getDouble(row, i++));
+		logEntry.setVelGPSvelH(getDouble(row, i++));
+		logEntry.setQuatW(getDouble(row, i++));
+		logEntry.setQuatX(getDouble(row, i++));
+		logEntry.setQuatY(getDouble(row, i++));
+		logEntry.setQuatZ(getDouble(row, i++));
+		logEntry.setRoll(getDouble(row, i++));
+		logEntry.setPitch(getDouble(row, i++));
+		logEntry.setYaw(getDouble(row, i++));
+		logEntry.setYaw360(getDouble(row, i++));
+		logEntry.setTotalGyroZ(getDouble(row, i++));
+		logEntry.setMagYaw(getDouble(row, i++));
+		logEntry.setThrustAngle(getDouble(row, i++));
+		logEntry.setHomePointLongitude(getDouble(row, i++));
+		logEntry.setHomePointLatitude(getDouble(row, i++));
+		logEntry.setHomePointAltitude(getDouble(row, i++));
+		logEntry.setGeoMagDeclination(getDouble(row, i++));
+		logEntry.setGeoMagInclination(getDouble(row, i++));
+		logEntry.setDistancHP(getDouble(row, i++));
+		logEntry.setDistanceTravelled(getDouble(row, i++));
+		logEntry.setDirectionOfTravel(getDouble(row, i++));
+		logEntry.setDirectionOfTravelTrue(getDouble(row, i++));
+		logEntry.setIMUTemp(getInteger(row, i++));
+		logEntry.setFlyCState(getInteger(row, i++));
+		logEntry.setFlyCStateString(getString(row, i++));
+		logEntry.setNonGPSCause(getInteger(row, i++));
+		logEntry.setNonGPSCauseString(getString(row, i++));
+		logEntry.setDWFlyCState(getInteger(row, i++));
+		logEntry.setConnectedToRC(getBoolean(row, i++));
+		logEntry.setCurrent(getDouble(row, i++));
+		logEntry.setVolt1(getDouble(row, i++));
+		logEntry.setVolt2(getDouble(row, i++));
+		logEntry.setVolt3(getDouble(row, i++));
+		logEntry.setVolt4(getDouble(row, i++));
+		logEntry.setVolt5(getDouble(row, i++));
+		logEntry.setVolt6(getDouble(row, i++));
+		logEntry.setTotalVolts(getDouble(row, i++));
+		logEntry.setVoltSpread(getDouble(row, i++));
+		logEntry.setWatts(getDouble(row, i++));
+		logEntry.setBatteryTemp(getDouble(row, i++));
+		logEntry.setRatedCapacity(getDouble(row, i++));
+		logEntry.setRemaingCapacity(getDouble(row, i++));
+		logEntry.setPercentageCapacity(getInteger(row, i++));
+		logEntry.setUsefulTime(getInteger(row, i++));
+		logEntry.setPercentageVolts(getInteger(row, i++));
+		logEntry.setBatteryCycleCount(getInteger(row, i++));
+		logEntry.setBatteryLifePercentage(getInteger(row, i++));
+		logEntry.setBatteryBarCode(getString(row, i++));
+		logEntry.setMinCurrent(getDouble(row, i++));
+		logEntry.setMaxCurrent(getDouble(row, i++));
+		logEntry.setAvgCurrent(getDouble(row, i++));
+		logEntry.setMinVolts(getDouble(row, i++));
+		logEntry.setMaxVolts(getDouble(row, i++));
+		logEntry.setAvgVolts(getDouble(row, i++));
+		logEntry.setMinWatts(getDouble(row, i++));
+		logEntry.setMaxWatts(getDouble(row, i++));
+		logEntry.setAvgWatts(getDouble(row, i++));
+		logEntry.setGimbalRoll(getDouble(row, i++));
+		logEntry.setGimbalPitch(getDouble(row, i++));
+		logEntry.setGimbalYaw(getDouble(row, i++));
+		logEntry.setGimbalXRoll(getDouble(row, i++));
+		logEntry.setGimbalXPitch(getDouble(row, i++));
+		logEntry.setGimbalXYaw(getDouble(row, i++));
+		logEntry.setMotorCmndRFront(getInteger(row, i++));
+		logEntry.setMotorCmndLFront(getInteger(row, i++));
+		logEntry.setMotorCmndLBack(getInteger(row, i++));
+		logEntry.setMotorCmndRBack(getInteger(row, i++));
+		logEntry.setMotorSpeedRFront(getDouble(row, i++));
+		logEntry.setMotorSpeedLFront(getDouble(row, i++));
+		logEntry.setMotorSpeedLBack(getDouble(row, i++));
+		logEntry.setMotorSpeedRBack(getDouble(row, i++));
+		logEntry.setMotorLoadRFront(getDouble(row, i++));
+		logEntry.setMotorLoadLFront(getDouble(row, i++));
+		logEntry.setMotorLoadLBack(getDouble(row, i++));
+		logEntry.setMotorLoadRBack(getDouble(row, i++));
+		logEntry.setControlAileron(getInteger(row, i++));
+		logEntry.setControlElevator(getInteger(row, i++));
+		logEntry.setControlThrottle(getInteger(row, i++));
+		logEntry.setControlRudder(getInteger(row, i++));
+		logEntry.setControlModeSwitch(getInteger(row, i++));
+		logEntry.setTabletLongitude(getDouble(row, i++));
+		logEntry.setTabletLatitude(getDouble(row, i++));
 		
 		return logEntry;
 	}
 	
-	public static void logEntityToPoint(Builder builder, LogEntry logEntry) {
+	private static String getString(String[] data, int index) {
+		if(data.length > index){
+			String value = data[index];
+			
+			if(!value.trim().isEmpty()){
+				return value.trim();
+			}
+		}
 		
-		builder.addField("tick", logEntry.getTick());
-		builder.addField("offsetTime", logEntry.getOffsetTime());
-		builder.addField("flightTime", logEntry.getFlightTime());
-		builder.addField("longitude", logEntry.getLongitude());
-		builder.addField("latitude", logEntry.getLatitude());
-		builder.addField("numSats", logEntry.getNumSats());
-		builder.addField("gpsHealth", logEntry.getGpsHealth());
-		builder.addField("gpsAltitude", logEntry.getGpsAltitude());
-		builder.addField("baroAlt", logEntry.getBaroAlt());
-		builder.addField("vpsHeight", logEntry.getVpsHeight());
-		builder.addField("relativeHeight", logEntry.getRelativeHeight());
-		builder.addField("accelX", logEntry.getAccelX());
-		builder.addField("accelY", logEntry.getAccelY());
-		builder.addField("accelZ", logEntry.getAccelZ());
-		builder.addField("accel", logEntry.getAccel());
-		builder.addField("gyroX", logEntry.getGyroX());
-		builder.addField("gyroY", logEntry.getGyroY());
-		builder.addField("gyroZ", logEntry.getGyroZ());
-		builder.addField("gyro", logEntry.getGyro());
-		builder.addField("errorX", logEntry.getErrorX());
-		builder.addField("errorY", logEntry.getErrorY());
-		builder.addField("errorZ", logEntry.getErrorZ());
-		builder.addField("error", logEntry.getError());
-		builder.addField("magX", logEntry.getMagX());
-		builder.addField("magY", logEntry.getMagY());
-		builder.addField("magZ", logEntry.getMagZ());
-		builder.addField("magMod", logEntry.getMagMod());
-		builder.addField("velN", logEntry.getVelN());
-		builder.addField("velE", logEntry.getVelE());
-		builder.addField("velD", logEntry.getVelD());
-		builder.addField("vel", logEntry.getVel());
-		builder.addField("velH", logEntry.getVelH());
-		builder.addField("velGPSvelH", logEntry.getVelGPSvelH());
-		builder.addField("quatW", logEntry.getQuatW());
-		builder.addField("quatX", logEntry.getQuatX());
-		builder.addField("quatY", logEntry.getQuatY());
-		builder.addField("quatZ", logEntry.getQuatZ());
-		builder.addField("roll", logEntry.getRoll());
-		builder.addField("pitch", logEntry.getPitch());
-		builder.addField("yaw", logEntry.getYaw());
-		builder.addField("yaw360", logEntry.getYaw360());
-		builder.addField("totalGyroZ", logEntry.getTotalGyroZ());
-		builder.addField("magYaw", logEntry.getMagYaw());
-		builder.addField("thrustAngle", logEntry.getThrustAngle());
-		builder.addField("homePointLatitude", logEntry.getHomePointLatitude());
-		builder.addField("homePointLongitude", logEntry.getHomePointLongitude());
-		builder.addField("homePointAltitude", logEntry.getHomePointAltitude());
-		builder.addField("geoMagDeclination", logEntry.getGeoMagDeclination());
-		builder.addField("geoMagInclination", logEntry.getGeoMagInclination());
-		builder.addField("distancHP", logEntry.getDistancHP());
-		builder.addField("distanceTravelled", logEntry.getDistanceTravelled());
-		builder.addField("directionOfTravel", logEntry.getDirectionOfTravel());
-		builder.addField("directionOfTravelTrue", logEntry.getDirectionOfTravelTrue());
-		builder.addField("iMUTemp", logEntry.getIMUTemp());
-		builder.addField("flyCState", logEntry.getFlyCState());
-		builder.addField("flyCStateString", logEntry.getFlyCStateString());
-		builder.addField("nonGPSCause", logEntry.getNonGPSCause());
-		builder.addField("nonGPSCauseString", logEntry.getNonGPSCauseString());
-		builder.addField("dWFlyCState", logEntry.getDWFlyCState());
-		builder.addField("connectedToRC", logEntry.getConnectedToRC());
-		builder.addField("current", logEntry.getCurrent());
-		builder.addField("volt1", logEntry.getVolt1());
-		builder.addField("volt2", logEntry.getVolt2());
-		builder.addField("volt3", logEntry.getVolt3());
-		builder.addField("volt4", logEntry.getVolt4());
-		builder.addField("volt5", logEntry.getVolt5());
-		builder.addField("volt6", logEntry.getVolt6());
-		builder.addField("totalVolts", logEntry.getTotalVolts());
-		builder.addField("voltSpread", logEntry.getVoltSpread());
-		builder.addField("watts", logEntry.getWatts());
-		builder.addField("batteryTemp", logEntry.getBatteryTemp());
-		builder.addField("ratedCapacity", logEntry.getRatedCapacity());
-		builder.addField("remaingCapacity", logEntry.getRemaingCapacity());
-		builder.addField("percentageCapacity", logEntry.getPercentageCapacity());
-		builder.addField("usefulTime", logEntry.getUsefulTime());
-		builder.addField("percentageVolts", logEntry.getPercentageVolts());
-		builder.addField("batteryCycleCount", logEntry.getBatteryCycleCount());
-		builder.addField("batteryLifePercentage", logEntry.getBatteryLifePercentage());
-		builder.addField("batteryBarCode", logEntry.getBatteryBarCode());
-		builder.addField("minCurrent", logEntry.getMinCurrent());
-		builder.addField("maxCurrent", logEntry.getMaxCurrent());
-		builder.addField("avgCurrent", logEntry.getAvgCurrent());
-		builder.addField("minVolts", logEntry.getMinVolts());
-		builder.addField("maxVolts", logEntry.getMaxVolts());
-		builder.addField("minWatts", logEntry.getMinWatts());
-		builder.addField("maxWatts", logEntry.getMaxWatts());
-		builder.addField("avgWatts", logEntry.getAvgWatts());
-		builder.addField("gimbalRoll", logEntry.getGimbalRoll());
-		builder.addField("gimbalPitch", logEntry.getGimbalPitch());
-		builder.addField("gimbalYaw", logEntry.getGimbalYaw());
-		builder.addField("gimbalXRoll", logEntry.getGimbalXRoll());
-		builder.addField("gimbalXPitch", logEntry.getGimbalXPitch());
-		builder.addField("gimbalXYaw", logEntry.getGimbalXYaw());
-		builder.addField("motorCmndRFront", logEntry.getMotorCmndRFront());
-		builder.addField("motorCmndLFront", logEntry.getMotorCmndLFront());
-		builder.addField("motorCmndLBack", logEntry.getMotorCmndLBack());
-		builder.addField("motorCmndRBack", logEntry.getMotorCmndRBack());
-		builder.addField("motorSpeedRFront", logEntry.getMotorSpeedRFront());
-		builder.addField("motorSpeedLFront", logEntry.getMotorSpeedLFront());
-		builder.addField("motorSpeedLBack", logEntry.getMotorSpeedLBack());
-		builder.addField("motorSpeedRBack", logEntry.getMotorSpeedRBack());
-		builder.addField("motorLoadRFront", logEntry.getMotorLoadRFront());
-		builder.addField("motorLoadLFront", logEntry.getMotorLoadLFront());
-		builder.addField("motorLoadLBack", logEntry.getMotorLoadLBack());
-		builder.addField("motorLoadRBack", logEntry.getMotorLoadRBack());
-		builder.addField("controlAileron", logEntry.getControlAileron());
-		builder.addField("controlElevator", logEntry.getControlElevator());
-		builder.addField("controlThrottle", logEntry.getControlThrottle());
-		builder.addField("controlRudder", logEntry.getControlRudder());
-		builder.addField("controlModeSwitch", logEntry.getControlModeSwitch());
-		builder.addField("tabletLongitude", logEntry.getTabletLongitude());
-		builder.addField("tabletLatitude", logEntry.getTabletLatitude());
+		return null;
+	}
+	
+	private static Integer getInteger(String[] data, int index) {
+		if(data.length > index){
+			String value = data[index].trim();
+			
+			if(!value.isEmpty()){
+				return Integer.valueOf(value);
+			}
+		}
 		
+		return null;
+	}
+	
+	private static Double getDouble(String[] data, int index) {
+		if(data.length > index){
+			String value = data[index].trim();
+			
+			if(!value.isEmpty()){
+				return Double.valueOf(value);
+			}
+		}
+		
+		return null;
+	}
+	
+	private static Boolean getBoolean(String[] data, int index) {
+		if(data.length > index){
+			String value = data[index];
+			
+			if(!value.isEmpty()){
+				return value.equals("1");
+			}
+		}
+		
+		return null;
 	}
 
+	
 }

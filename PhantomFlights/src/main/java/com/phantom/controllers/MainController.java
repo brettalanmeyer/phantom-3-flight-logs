@@ -1,8 +1,11 @@
 package com.phantom.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import org.influxdb.dto.QueryResult.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,32 +14,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.phantom.ingestion.Coordinate;
-import com.phantom.service.DataService;
+import com.phantom.storage.StorageService;
 
 @Controller
 public class MainController {
-
+	
 	@Autowired
-	private DataService dataService;
-
+	private StorageService storageService;
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Model model) {
-		List<String> tags = this.dataService.getTags();
-		model.addAttribute("tags", tags);
+		List<String> flights = this.storageService.loadAllJson().map(path -> path.getFileName().toString()).collect(Collectors.toList());
+		model.addAttribute("flights", flights);
 		return "main";
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/flight-coordinates.json", method = RequestMethod.GET)
-	public List<Coordinate> flightCoordinates(@RequestParam("flight") String flight) {
-		return this.dataService.getFlightCoordinates(flight);
-	}
-
-	@ResponseBody
 	@RequestMapping(value = "/flight-data.json", method = RequestMethod.GET)
-	public Series flightData(@RequestParam("flight") String flight) {
-		return this.dataService.getFlightData(flight);
+	public String flightData(@RequestParam("flight") String flight) throws IOException {
+		Path path = this.storageService.jsonPath(flight);
+		byte[] data = Files.readAllBytes(path);
+		return new String(data,  "utf-8").toString();
 	}
 
 }

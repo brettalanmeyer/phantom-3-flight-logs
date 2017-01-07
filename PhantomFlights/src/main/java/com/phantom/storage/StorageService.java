@@ -14,15 +14,21 @@ public interface StorageService {
 
 	public boolean storeDat(MultipartFile file);
 
+	public boolean storeJson(Path path, String data);
+
 	public Stream<Path> loadAllDat();
 	
 	public Stream<Path> loadAllCsv();
 	
-	public Path load(String filename);
+	public Stream<Path> loadAllJson();
 	
-	public Path loadDat(String filename);
+	public Path path(String filename);
 	
-	public Path loadCsv(String filename);
+	public Path datPath(String filename);
+	
+	public Path csvPath(String filename);
+
+	public Path jsonPath(String filename);
 
 	public Resource loadAsResource(String filename);
 

@@ -1,9 +1,18 @@
-var map;
-var currentFlightPath = null;
-var currentMarker = null;
-
 function initMap() {
-	map = new google.maps.Map(document.getElementById("map"), {
+	
+	var map;
+	var currentFlightPath = null;
+	var currentMarker = null;
+	var flightCoordinates;
+	var flightData;
+
+	var mapElement = document.getElementById("map");
+	
+	if(mapElement == null){
+		return;
+	}
+	
+	map = new google.maps.Map(mapElement, {
 		zoom: 18,
 		center: {
 			lat: 42.01924420474889,
@@ -11,136 +20,128 @@ function initMap() {
 		},
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	});
-}
-
-var flightCoordinates;
-var flightData;
-
-$(function(){
-		
-	var flightBtns = $(".btn[data-type=flight-coordinates]");
-	flightBtns.on("click", function(){
-		
-		var source = $(this);
-		flightBtns.prop("disabled", true);
-		
-		$.get("/flight-coordinates.json", { "flight": source.data("flight") }).done(function(coordinates){
+	
+	$(function(){
 			
-			console.log(coordinates.length);
+		var flightBtns = $(".btn[data-type=flight]");
+		flightBtns.on("click", function(){
 			
-			flightCoordinates = coordinates;
+			var source = $(this);
+			flightBtns.prop("disabled", true);
 			
-			setTimeout(function(){
-				flightBtns.prop("disabled", false);
-			}, 1000);
-			
-			if(currentFlightPath != null){
-				currentFlightPath.setMap(null);
-				currentFlightPath = null;
-				currentMarker.setMap(null);
-			}
-			
-			if(coordinates.length == 0){
-				return
-			}
-			
-			var marker = new google.maps.Marker({
-				position: {
-					lat: coordinates[0]["lat"],
-					lng: coordinates[0]["lng"]
-				},
-				map: map
-			});
+			$.get("/flight-data.json", { "flight": source.data("flight") }).done(function(data){
 				
-			var flightPath = new google.maps.Polyline({
-				path: coordinates,
-				geodesic: true,
-				strokeColor: '#FF0000',
-				strokeOpacity: 1.0,
-				strokeWeight: 2,
-				map: map
+				flightData = data;
+				
+				flightBtns.prop("disabled", false);
+				
+				if(currentFlightPath != null){
+					currentFlightPath.setMap(null);
+					currentFlightPath = null;
+					currentMarker.setMap(null);
+				}
+				
+				
+				flightCoordinates = getCoordinates();
+				
+				var marker = new google.maps.Marker({
+					position: {
+						lat: flightCoordinates[0]["lat"],
+						lng: flightCoordinates[0]["lng"]
+					},
+					map: map
+				});
+					
+				var flightPath = new google.maps.Polyline({
+					path: flightCoordinates,
+					geodesic: true,
+					strokeColor: '#FF0000',
+					strokeOpacity: 1.0,
+					strokeWeight: 2,
+					map: map
+				});
+				
+				
+				google.maps.event.addListener(flightPath, "click", function(h) {
+					console.log(h);
+					console.log(h.latLng.lat(), h.latLng.lng());
+					console.log(this);
+				});
+				
+				
+				currentFlightPath = flightPath;
+				currentMarker = marker;
+				
+				 
+				var bounds = new google.maps.LatLngBounds();
+				for (var i = 0; i < flightCoordinates.length; i++) {
+				    bounds.extend(flightCoordinates[i]);
+				}
+				map.fitBounds(bounds);
+				
 			});
 			
-			google.maps.event.addListener(flightPath, "click", function(h) {
-				console.log(h);
-				console.log(h.latLng.lat(), h.latLng.lng());
-				console.log(this);
-			 });
-			
-			currentFlightPath = flightPath;
-			currentMarker = marker;
-			
-			var bounds = new google.maps.LatLngBounds();
-			for (var i = 0; i < coordinates.length; i++) {
-			    bounds.extend(coordinates[i]);
-			}
-			map.fitBounds(bounds);
-			
-			enableAnazlye();
 		});
-		
-	});
-	
-	var dataBtns = $(".btn[data-type=flight-data]");
-	dataBtns.on("click", function(){
-		
-		var source = $(this);
-		dataBtns.prop("disabled", true);
-		
-		$.get("/flight-data.json", { "flight": source.data("flight") }).done(function(data){
-			flightData = data;
+				
+		/*$(".btn[data-type=time-data]").on("click", function(){
 			
-			dataBtns.prop("disabled", false);
+			var time = "1970-01-03T06:23:54.972471234Z";
 			
-			enableAnazlye();
-		});
+			var values = getValuesByColumn("time", time);
+			var latitude = getValue(values, "latitude");
+			var longitude = getValue(values, "longitude");
+			
+			console.log(latitude, longitude, values);
+		});*/
 		
-	});
-	
-	var btnAnalyze = $(".btn[data-type=time-data]");
-	
-	function enableAnazlye(){
-		if(flightCoordinates.length != null && flightData != null){
-			$(".btn[data-type=time-data]").prop("disabled", false);
+		function getCoordinates(){
+			var values = flightData.values;
+			
+			var coords = [];
+			var latIndex = getColumnIndex("latitude");
+			var lngIndex = getColumnIndex("longitude");
+			
+			for(var i = 0; i < values.length; i++){
+				var lat = values[i][latIndex];
+				var lng = values[i][lngIndex];
+				
+				if(lat != null && lng != null){
+					coords.push({
+						"lat": lat,
+						"lng": lng
+					});
+				}
+			}
+			
+			return coords;
 		}
-	}
-	
-	$(".btn[data-type=time-data]").on("click", function(){
 		
-		var time = "1970-01-03T06:23:54.972471234Z";
-		
-		var values = getValuesByColumn("time", time);
-		var latitude = getValue(values, "latitude");
-		var longitude = getValue(values, "longitude");
-		
-		console.log(latitude, longitude, values);
-	});
-	
-	function getValuesByColumn(name, value){
-		var index = getColumnIndex(name);
-		
-		var values = flightData.values;
-		
-		for(var i = 0; i < values.length; i++){
-			if(values[i][index] == value){
-				return values[i];
+		function getValuesByColumn(name, value){
+			var index = getColumnIndex(name);
+			
+			var values = flightData.values;
+			
+			for(var i = 0; i < values.length; i++){
+				if(values[i][index] == value){
+					return values[i];
+				}
 			}
 		}
-	}
-	
-	function getValue(values, name){
-		var index = getColumnIndex(name);
-		return values[index];
-	}
-	
-	function getColumnIndex(name){
-		var columns = flightData.columns; 
-		for(var i = 0; i < columns.length; i++){
-			if(columns[i] == name){
-				return i;
+		
+		function getValue(values, name){
+			var index = getColumnIndex(name);
+			return values[index];
+		}
+		
+		function getColumnIndex(name){
+			var columns = flightData.columns; 
+			for(var i = 0; i < columns.length; i++){
+				if(columns[i] == name){
+					return i;
+				}
 			}
 		}
-	}
+	
+	});
 
-	
-});
+}

@@ -10,17 +10,31 @@
 		<link rel="stylesheet" href="/assets/stylesheets/all.css" media="screen" />
 	</head>
 	<body>
+	
 		
-		<a href="/" class="pull-left">
-			<span class="glyphicon glyphicon-home"></span>
-		</a>
-		
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container-fluid">
+				
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">Phantom Flight Utility</a>
+				</div>
+
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="/dat">Manage Phantom DAT File</a></li>
+					</ul>
+				</div>
+        
+			</div>
+		</nav>
+				
 		<div class="container-fluid">
 			<tiles:insertAttribute name="body" />
 		</div>
 	
 		<script src="/webjars/jquery/2.2.4/jquery.min.js"></script>
 		<script src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="/assets/javascripts/all.js"></script>
 		<script src="/assets/javascripts/app.js"></script>
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfh-kFCPhku2UzStFLJNSPExxfdbWdXVo&callback=initMap"></script>
 		

@@ -1,15 +1,19 @@
 body {
-	padding: 10px 0;
+	padding-top: 70px;
 }
 
 .map {
-	margin-top: 20px;
-	width: 1000px;
+	width: 800px;
 	height: 500px;
+}
+
+.table {
+	width: 600px;	
 }
 
 .table > tbody > tr > td {
 	vertical-align: middle;
+	width: 33.333%;
 }
 
 .btn-file {

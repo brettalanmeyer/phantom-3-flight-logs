@@ -3,8 +3,6 @@
 
 <h2>Phantom 3 Flight Log Processing</h2>
 
-<br />
-
 <div>
 	<form:form action="/dat/upload" enctype="multipart/form-data" class="form-inline">
 		
@@ -27,7 +25,8 @@
 
 <div>
 	<h4>DAT Files</h4>
-	<table class="table" style="width: inherit;">
+	
+	<table class="table">
 		<tbody>
 		
 			<c:forEach items="${dats}" var="dat">
@@ -40,9 +39,9 @@
 							<button class="btn btn-info btn-sm disabled">Converted</button>
 						</c:if>
 						<c:if test="${not dat.processed}">
-							<form:form id="" action="/dat/convert">
+							<form:form id="" action="/dat/process-dat">
 								<input type="hidden" name="dat" value="${dat.name}" />
-								<button class="btn btn-info btn-sm">Convert to CSV</button>
+								<button class="btn btn-info btn-sm">Process Dat File</button>
 							</form:form>
 						</c:if>
 					</td>
@@ -60,12 +59,13 @@
 			
 		</tbody>
 	</table>
+	
 </div>
 
 <div>
 	<h4>CSV Files</h4>
 	
-	<table class="table" style="width: inherit;">
+	<table class="table">
 		<tbody>
 		
 			<c:forEach items="${csvs}" var="csv">
@@ -75,13 +75,13 @@
 					
 					<td>
 						<c:if test="${csv.processed}">
-							<button class="btn btn-info btn-sm disabled">Ingested</button>
+							<button class="btn btn-info btn-sm disabled">Converted</button>
 						</c:if>
 						<c:if test="${not csv.processed}">
-							<form:form id="" action="/dat/ingest">
+							<form:form id="" action="/dat/process-csv">
 								<input type="hidden" name="csv" value="${csv.name}" />
-								<button class="btn btn-info btn-sm">Ingest to Database</button>
-							</form:form>		
+								<button class="btn btn-info btn-sm">Process CSV File</button>
+							</form:form>
 						</c:if>
 					</td>
 					
@@ -95,7 +95,37 @@
 					
 				</tr>
 			</c:forEach>
-		
+			
 		</tbody>
 	</table>
+	
+</div>
+
+<div>
+	<h4>JSON Files</h4>
+	
+	<table class="table">
+		<tbody>
+		
+			<c:forEach items="${jsons}" var="json">
+				<tr>
+				
+					<td>${json}</td>
+					
+					<td></td>
+					
+					<td>
+						<form:form id="" action="/dat/delete">
+							<input type="hidden" name="file" value="${json}" />
+							<input type="hidden" name="type" value="json" />
+							<button class="btn btn-danger btn-sm">Delete</button>
+						</form:form>
+					</td>
+					
+				</tr>
+			</c:forEach>
+			
+		</tbody>
+	</table>
+	
 </div>
