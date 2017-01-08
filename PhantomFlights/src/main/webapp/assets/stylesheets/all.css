@@ -2,9 +2,17 @@ body {
 	padding-top: 70px;
 }
 
+.map-container {
+	overflow: hidden;
+}
+
+.map-container ul {
+	float: right;
+}
+
 .map {
-	width: 1600px;
-	height: 700px;
+	width: 1700px;
+	height: 325px;
 }
 
 .table {
@@ -30,6 +38,11 @@ body {
 	overflow: hidden;
 }
 
+.btn:focus, 
+.btn.active:focus {
+  outline: none;
+}
+
 .btn-file input[type=file] {
 	position: absolute;
 	top: 0;
@@ -44,4 +57,89 @@ body {
 	background: white;
 	cursor: inherit;
 	display: block;
+}
+
+.data-box-container {
+	overflow: hidden;
+	border-bottom: solid 1px #ccc;
+	padding-bottom: 8px;
+	margin-bottom: 8px;
+}
+
+.data-box-container:last-child {
+	border: none;
+}
+
+.data-box {
+	border: solid 1px #ccc;
+	border-radius: 4px;
+	text-align: center;
+	float: left;
+	margin: 2px;
+	padding: 2px 4px;
+}
+
+.data-box.w1 {
+	width: 60px;
+}
+.data-box.w2 {
+	width: 70px;
+}
+.data-box.w3 {
+	width: 80px;
+}
+.data-box.w4 {
+	width: 90px;
+}
+.data-box.w5 {
+	width: 100px;
+}
+.data-box.w6 {
+	width: 110px;
+}
+.data-box.w7 {
+	width: 120px;
+}
+.data-box.w8 {
+	width: 130px;
+}
+
+.data-box label {
+	font-size: 11px;
+	font-weight: normal;
+	display: block;
+	margin: auto;
+}
+
+.data-box .value {
+	font-size: 14px;
+}
+
+
+.range {
+	width: 100%;
+	display: table;
+	border-collapse: collapse;
+	margin: 20px 0;
+	
+}
+
+.range .min,
+.range .slider,
+.range .max,
+.range .step {
+	display: table-cell;
+	border: solid 1px #ccc;
+	padding: 8px 4px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.range .min,
+.range .max,
+.range .step {
+	width: 60px;
+}
+
+.range .slider {
 }
