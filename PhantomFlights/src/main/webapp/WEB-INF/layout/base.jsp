@@ -21,7 +21,7 @@
 
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-						<li><a href="/dat">Manage Phantom DAT File</a></li>
+						<li><a href="/data-files">Manage Phantom Data Files</a></li>
 					</ul>
 				</div>
         
@@ -34,8 +34,9 @@
 	
 		<script src="/webjars/jquery/2.2.4/jquery.min.js"></script>
 		<script src="/webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="/assets/javascripts/data.js"></script>
 		<script src="/assets/javascripts/all.js"></script>
-		<script src="/assets/javascripts/app.js"></script>
+		<!-- <script src="/assets/javascripts/app.js"></script> -->
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfh-kFCPhku2UzStFLJNSPExxfdbWdXVo&callback=initMap"></script>
 		
 	</body>

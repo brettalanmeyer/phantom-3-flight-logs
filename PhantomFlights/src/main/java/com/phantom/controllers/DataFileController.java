@@ -22,14 +22,14 @@ import com.phantom.ingestion.DataReader;
 import com.phantom.storage.StorageService;
 
 @Controller
-public class DatController {
+public class DataFileController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(DatController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DataFileController.class);
 	
 	@Autowired
 	private StorageService storageService;
 	
-	@RequestMapping(value = "/dat", method = RequestMethod.GET)
+	@RequestMapping(value = "/data-files", method = RequestMethod.GET)
 	public String index(Model model) {
 		
 		List<Map<String, Object>> dats = new ArrayList<>();
@@ -73,7 +73,7 @@ public class DatController {
 		return "dat.index";
 	}
 	
-	@RequestMapping(value = "/dat/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/data-files/upload", method = RequestMethod.POST)
 	public String upload(@RequestParam("file") MultipartFile file) {
 		String name = file.getOriginalFilename();
 		logger.info("Uploading DAT File '{}'", name);
@@ -84,10 +84,10 @@ public class DatController {
 			logger.info("DAT File '{}' has already been uploaded", name);
 		}
 		
-		return "redirect:/dat";
+		return "redirect:/data-files";
 	}
 	
-	@RequestMapping(value = "/dat/process-dat", method = RequestMethod.POST)
+	@RequestMapping(value = "/data-files/process-dat", method = RequestMethod.POST)
 	public String processDat(@RequestParam("dat") String dat) {
 		logger.info("Converting DAT file '{}' to CSV", dat);
 		
@@ -104,10 +104,10 @@ public class DatController {
 			logger.info("Completing DAT to CSV Conversion");
 		}
 		
-		return "redirect:/dat";
+		return "redirect:/data-files";
 	}
 	
-	@RequestMapping(value = "/dat/process-csv", method = RequestMethod.POST)
+	@RequestMapping(value = "/data-files/process-csv", method = RequestMethod.POST)
 	public String processCsv(@RequestParam("csv") String csv) {
 		logger.info("Converting CSV file '{}' to JSON", csv);
 		
@@ -125,10 +125,10 @@ public class DatController {
 			logger.info("Completing CSV to JSON Conversion");
 		}
 		
-		return "redirect:/dat";
+		return "redirect:/data-files";
 	}
 	
-	@RequestMapping(value = "/dat/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/data-files/delete", method = RequestMethod.POST)
 	public String delete(@RequestParam("file") String file, @RequestParam("type") String type) {
 		logger.info("Deleting file '{}'", file);
 		
@@ -144,7 +144,7 @@ public class DatController {
 			this.storageService.delete(path);
 		}
 		
-		return "redirect:/dat";
+		return "redirect:/data-files";
 	}
 	
 }
