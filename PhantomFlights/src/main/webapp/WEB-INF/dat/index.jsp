@@ -26,7 +26,7 @@
 <div class="file-list">
 	<h4>DAT Files</h4>
 	
-	<table class="table">
+	<table class="table table-condensed">
 		<tbody>
 		
 			<c:forEach items="${dats}" var="dat">
@@ -36,12 +36,12 @@
 					
 					<td>
 						<c:if test="${dat.processed}">
-							<button class="btn btn-info btn-sm disabled">Processed</button>
+							<button class="btn btn-info btn-xs disabled">Processed</button>
 						</c:if>
 						<c:if test="${not dat.processed}">
 							<form:form id="" action="/data-files/process-dat">
 								<input type="hidden" name="dat" value="${dat.name}" />
-								<button class="btn btn-info btn-sm">Process Dat File</button>
+								<button class="btn btn-info btn-xs">Process Dat File</button>
 							</form:form>
 						</c:if>
 					</td>
@@ -50,7 +50,7 @@
 						<form:form id="" action="/data-files/delete">
 							<input type="hidden" name="file" value="${dat.name}" />
 							<input type="hidden" name="type" value="dat" />
-							<button class="btn btn-danger btn-sm">Delete</button>
+							<button class="btn btn-danger btn-xs">Delete</button>
 						</form:form>
 					</td>
 					
@@ -65,7 +65,7 @@
 <div class="file-list">
 	<h4>CSV Files</h4>
 	
-	<table class="table">
+	<table class="table table-condensed">
 		<tbody>
 		
 			<c:forEach items="${csvs}" var="csv">
@@ -75,12 +75,12 @@
 					
 					<td>
 						<c:if test="${csv.processed}">
-							<button class="btn btn-info btn-sm disabled">Processed</button>
+							<button class="btn btn-info btn-xs disabled">Processed</button>
 						</c:if>
 						<c:if test="${not csv.processed}">
 							<form:form id="" action="/data-files/process-csv">
 								<input type="hidden" name="csv" value="${csv.name}" />
-								<button class="btn btn-info btn-sm">Process CSV File</button>
+								<button class="btn btn-info btn-xs">Process CSV File</button>
 							</form:form>
 						</c:if>
 					</td>
@@ -89,7 +89,7 @@
 						<form:form id="" action="/data-files/delete">
 							<input type="hidden" name="file" value="${csv.name}" />
 							<input type="hidden" name="type" value="csv" />
-							<button class="btn btn-danger btn-sm">Delete</button>
+							<button class="btn btn-danger btn-xs">Delete</button>
 						</form:form>
 					</td>
 					
@@ -104,7 +104,7 @@
 <div class="file-list">
 	<h4>JSON Files</h4>
 	
-	<table class="table">
+	<table class="table table-condensed">
 		<tbody>
 		
 			<c:forEach items="${jsons}" var="json">
@@ -116,7 +116,7 @@
 						<form:form id="" action="/data-files/delete">
 							<input type="hidden" name="file" value="${json}" />
 							<input type="hidden" name="type" value="json" />
-							<button class="btn btn-danger btn-sm">Delete</button>
+							<button class="btn btn-danger btn-xs">Delete</button>
 						</form:form>
 					</td>
 					

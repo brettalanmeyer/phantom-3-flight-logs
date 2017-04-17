@@ -10,6 +10,12 @@ body {
 	float: right;
 }
 
+.map-container .flight-files {
+	display: block;
+	height: 315px;
+	overflow-y: auto;
+}
+
 .map {
 	width: 1700px;
 	height: 325px;

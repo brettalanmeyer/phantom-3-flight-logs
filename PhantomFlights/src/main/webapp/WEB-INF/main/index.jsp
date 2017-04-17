@@ -2,7 +2,7 @@
 
 <div class="map-container">
 
-	<ul class="list-unstyled">
+	<ul class="flight-files list-unstyled">
 		<c:forEach items="${flights}" var="flight">
 			<li>
 				<button class="btn btn-default btn-xs get-flight-data" data-flight="${flight}">${flight} Flight</button>
