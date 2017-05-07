@@ -49,8 +49,22 @@ $(function(){
 	range.on("input", onRange);
 	
 	playBtn.on("click", playFlight);
+	
+	$(document).on("keydown", function(e){
+		if(e.which == 84){
+			toggle();
+		}
+	});
 
 });
+
+function toggle(){
+	if($("body").toggleClass("toggle").hasClass("toggle")){
+		google.maps.event.trigger(map, "resize");
+	} else {
+	}
+	
+}
 
 function loadFlightData(){
 	flightDataBtns.prop("disabled", true).removeClass("active");
